@@ -7,8 +7,8 @@ class EntraApp
   attr_accessor  :sleep_seconds
   attr_reader    :open_seconds
 
-  def initialize(user_key,params = nil)
-    url = "http://10.0.2.185:3000/user_client_keys/#{user_key}"
+  def initialize(place_id,params = nil)
+    url = "http://10.0.2.185:3000/place_key/#{place_id}"
     @uri = URI(url)
     @uri.query = URI.encode_www_form(params) if params
     @sleep_seconds = 2
@@ -30,7 +30,7 @@ class EntraApp
   end
 
   def update_status status
-    url = "http://10.0.2.185:3000/client_keys/#{@response['key']}/status/#{status}"
+    url = "http://10.0.2.185:3000/client_key/#{@response['key']}/status/#{status}"
     uri = URI(url)
     res = Net::HTTP.get_response(uri)
     if res.is_a?(Net::HTTPSuccess)
