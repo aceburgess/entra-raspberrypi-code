@@ -7,11 +7,11 @@ class EntraApp
   attr_accessor  :sleep_seconds
   attr_reader    :open_seconds
 
-  def initialize(place_id,params = nil)
-    url = "http://10.0.2.87:3000/place_key/#{place_id}"
+  def initialize(base_url,place_id)
+    @base_url = base_url
+    url = "http://#{base_url}/place/#{place_id}/key"
     @uri = URI(url)
-    @uri.query = URI.encode_www_form(params) if params
-    @sleep_seconds = 2
+    @sleep_seconds = 1
     @open_seconds = 5
   end
 
@@ -30,7 +30,11 @@ class EntraApp
   end
 
   def update_status status
-    url = "http://10.0.2.87:3000/client_key/#{@response['key']}/status/#{status}"
+    if @response.has_key?'master'
+      url = "http://#{@base_url}/key/#{@response['master']}/master/#{status}"
+    else
+      url = "http://#{@base_url}/key/#{@response['key']}/status/#{status}"
+    end
     uri = URI(url)
     res = Net::HTTP.get_response(uri)
     if res.is_a?(Net::HTTPSuccess)
@@ -56,7 +60,7 @@ connection :raspi, :adaptor => :raspi
 device :led, :driver => :led, :pin => 11
 
 work do
-  entra = EntraApp.new(ARGV[0])
+  entra = EntraApp.new(ARGV[0],ARGV[1])
   while(true) do
     sleep entra.sleep_seconds
     entra.get_url
