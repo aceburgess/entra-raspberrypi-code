@@ -30,7 +30,7 @@ class EntraApp
   end
 
   def update_status status
-    url = "http://10.0.2.185:3000/client_key/#{@response['key']}/status/#{status}"
+    url = "http://10.0.2.87:3000/client_key/#{@response['key']}/status/#{status}"
     uri = URI(url)
     res = Net::HTTP.get_response(uri)
     if res.is_a?(Net::HTTPSuccess)
