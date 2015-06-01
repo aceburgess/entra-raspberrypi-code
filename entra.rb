@@ -8,7 +8,7 @@ class EntraApp
   attr_reader    :open_seconds
 
   def initialize(place_id,params = nil)
-    url = "http://10.0.2.185:3000/place_key/#{place_id}"
+    url = "http://10.0.2.87:3000/place_key/#{place_id}"
     @uri = URI(url)
     @uri.query = URI.encode_www_form(params) if params
     @sleep_seconds = 2
