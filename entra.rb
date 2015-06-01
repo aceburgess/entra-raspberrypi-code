@@ -9,6 +9,7 @@ class EntraApp
 
   def initialize(base_url,place_id)
     @base_url = base_url
+    @place_id = place_id
     url = "http://#{base_url}/place/#{place_id}/key"
     @uri = URI(url)
     @sleep_seconds = 1
@@ -31,7 +32,7 @@ class EntraApp
 
   def update_status status
     if @response.has_key?'master'
-      url = "http://#{@base_url}/key/#{@response['master']}/master/#{status}"
+      url = "http://#{@base_url}/place/#{@place_id}/master/#{status}"
     else
       url = "http://#{@base_url}/key/#{@response['key']}/status/#{status}"
     end
