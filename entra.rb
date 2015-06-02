@@ -64,13 +64,19 @@ work do
   entra = EntraApp.new(ARGV[0],ARGV[1])
   while(true) do
     sleep entra.sleep_seconds
-    entra.get_url
-    if entra.can_open?
-      led.on
-      entra.update_status "opened"
-      sleep entra.open_seconds
+    begin
+      entra.get_url
+      if entra.can_open?
+        led.on
+        entra.update_status "opened"
+        sleep entra.open_seconds
+        led.off
+        entra.update_status "closed"
+      end
+    rescue Exception => msg
       led.off
-      entra.update_status "closed"
+      puts "[#{Time.now}] - something went wrong closing door "
+      puts msg
     end
   end
 end
