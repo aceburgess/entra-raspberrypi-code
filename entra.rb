@@ -1,6 +1,6 @@
 require_relative 'pin-setup'
 require 'net/http'
-# require 'artoo'
+require 'artoo'
 require 'json'
 
 class EntraApp
@@ -61,7 +61,7 @@ end
 # connection :raspi, :adaptor => :raspi
 # device :led, :driver => :led, :pin => 11
 
-# work do
+work do
   entra = EntraApp.new(ARGV[0],ARGV[1])
   while(true) do
     sleep entra.sleep_seconds
@@ -81,4 +81,4 @@ end
       puts msg
     end
   end
-# end
+end
