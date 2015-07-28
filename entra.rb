@@ -1,3 +1,4 @@
+require 'pin-setup.rb'
 require 'net/http'
 require 'artoo'
 require 'json'
