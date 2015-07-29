@@ -58,8 +58,8 @@ class EntraApp
 
 end
 
-# connection :raspi, :adaptor => :raspi
-# device :led, :driver => :led, :pin => 11
+connection :raspi, :adaptor => :raspi
+device :led, :driver => :led, :pin => 11
 
 work do
   entra = EntraApp.new(ARGV[0],ARGV[1])
@@ -68,15 +68,17 @@ work do
     begin
       entra.get_url
       if entra.can_open?
-        DOOR.digital_write PIN, 1
-        # led.on
+        # DOOR.digital_write PIN, 1
+        led.on
         entra.update_status "opened"
         sleep entra.open_seconds
-        DOOR.digital_write PIN, 0
+        led.off
+        # DOOR.digital_write PIN, 0
         entra.update_status "closed"
       end
     rescue Exception => msg
-      DOOR.digital_write PIN, 0
+      led.off
+      # DOOR.digital_write PIN, 0
       puts "[#{Time.now}] - something went wrong closing door "
       puts msg
     end
